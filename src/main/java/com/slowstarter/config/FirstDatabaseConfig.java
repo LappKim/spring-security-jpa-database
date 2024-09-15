@@ -38,9 +38,7 @@ public class FirstDatabaseConfig {
     @Primary
     @Bean
     LocalContainerEntityManagerFactoryBean firstEntityManger() {
-
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
-
         entityManager.setDataSource(firstDataSource());
         entityManager.setPackagesToScan(new String[] { "com.slowstarter.first.entity" });
         entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
@@ -50,7 +48,7 @@ public class FirstDatabaseConfig {
         properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.use_sql_comments", "true");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        // properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 
         // Physical naming strategy 설정
         /**
@@ -61,8 +59,6 @@ public class FirstDatabaseConfig {
          */
         properties.put("hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl");
 
-
-
         entityManager.setJpaPropertyMap(properties);
 
         return entityManager;
@@ -71,10 +67,8 @@ public class FirstDatabaseConfig {
     @Primary
     @Bean
     PlatformTransactionManager firstTransactionManager() {
-
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(firstEntityManger().getObject());
-
         return transactionManager;
     }
 }

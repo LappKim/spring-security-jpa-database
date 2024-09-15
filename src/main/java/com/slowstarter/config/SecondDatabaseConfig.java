@@ -35,9 +35,7 @@ public class SecondDatabaseConfig {
 
     @Bean
     LocalContainerEntityManagerFactoryBean secondEntityManger() {
-
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
-
         entityManager.setDataSource(secondDataSource());
         entityManager.setPackagesToScan(new String[] { "com.slowstarter.second.entity" });
         entityManager.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
@@ -48,6 +46,15 @@ public class SecondDatabaseConfig {
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.use_sql_comments", "true");
 
+        // Physical naming strategy 설정
+        /**
+         * # Hibernate 물리 네이밍 전략 (스네이크 케이스로 테이블/컬럼명 매핑)
+         * spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+         * # Hibernate 생성 네이밍 전략 (엔티티 클래스와 일치하는 이름 사용)
+         * spring.jpa.hibernate.naming.implicit-strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+         */
+        properties.put("hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl");
+
         entityManager.setJpaPropertyMap(properties);
 
         return entityManager;
@@ -55,10 +62,8 @@ public class SecondDatabaseConfig {
 
     @Bean
     PlatformTransactionManager secondTransactionManager() {
-
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(secondEntityManger().getObject());
-
         return transactionManager;
     }
 }
