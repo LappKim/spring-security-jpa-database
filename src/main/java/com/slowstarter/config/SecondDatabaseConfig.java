@@ -34,7 +34,7 @@ public class SecondDatabaseConfig {
     }
 
     @Bean
-    LocalContainerEntityManagerFactoryBean secondEntityManger() {
+    LocalContainerEntityManagerFactoryBean secondEntityManager() {
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setDataSource(secondDataSource());
         entityManager.setPackagesToScan(new String[] { "com.slowstarter.second.entity" });
@@ -63,7 +63,7 @@ public class SecondDatabaseConfig {
     @Bean
     PlatformTransactionManager secondTransactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(secondEntityManger().getObject());
+        transactionManager.setEntityManagerFactory(secondEntityManager().getObject());
         return transactionManager;
     }
 }
